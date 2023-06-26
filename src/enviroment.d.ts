@@ -7,6 +7,9 @@ declare global {
       PORT: string;
       PREFIX: string;
       DB: string;
+      JWT_SECRET: string;
+      JWT_EXPIRED_IN: string;
+      JWT_COOKIE_EXPIRED_IN: string;
     }
   }
 }

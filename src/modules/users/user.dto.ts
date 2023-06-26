@@ -7,3 +7,8 @@ export interface CreateUserDto {
   passwordConfirm: string;
   role?: Role;
 }
+
+export interface LoginDto {
+  username: string;
+  password: string;
+}

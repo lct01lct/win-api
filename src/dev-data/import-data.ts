@@ -27,11 +27,13 @@ class ImportDataModule {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {
     (async () => {
       await this.importData();
+      process.exit();
     })();
   }
 
   async deleteData() {
     await Promise.all([this.userModel.deleteMany()]);
+    logger.success('Data successfully deleted!');
   }
 
   async importData() {

@@ -1,19 +1,28 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AUTH_API } from '@/shared';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Res } from '@nestjs/common';
+import { USER_API } from '@/shared';
 import { UserService } from './users.service';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, LoginDto } from './user.dto';
+import { Response } from 'express';
 
-@Controller(AUTH_API)
+@Controller(USER_API)
 export class UsersController {
   constructor(private readonly usersService: UserService) {}
 
   @Get()
-  async getAll() {
-    return 123;
+  async getAllUser() {
+    return this.usersService.getAllUser();
   }
 
-  @Post()
+  @Post('signup')
   async createUser(@Body() createUserDto: CreateUserDto) {
-    await this.usersService.createUser(createUserDto);
+    return await this.usersService.createUser(createUserDto);
+  }
+
+  @HttpCode(200)
+  @Post('login')
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    const user = await this.usersService.login(loginDto);
+
+    this.usersService.sendToken(user, HttpStatus.OK, res);
   }
 }
