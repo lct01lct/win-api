@@ -8,8 +8,10 @@ import { Model } from 'mongoose';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async createUser(user?: CreateUserDto) {
-    const newUser = await this.userModel.create(user);
+  async createUser(user: CreateUserDto) {
+    const { username, email, password, passwordConfirm } = user;
+
+    const newUser = await this.userModel.create({ username, email, password, passwordConfirm });
 
     return newUser;
   }

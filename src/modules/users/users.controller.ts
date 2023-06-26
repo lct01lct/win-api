@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AUTH_API } from 'src/shared';
+import { AUTH_API } from '@/shared';
 import { UserService } from './users.service';
 import { CreateUserDto } from './user.dto';
 
@@ -9,7 +9,6 @@ export class UsersController {
 
   @Get()
   async getAll() {
-    await this.usersService.createUser();
     return 123;
   }
 

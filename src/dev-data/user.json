@@ -1,0 +1,16 @@
+[
+  {
+    "email": "admin@qq.com",
+    "password": "123456789",
+    "passwordConfirm": "123456789",
+    "username": "admin",
+    "role": "admin"
+  },
+  {
+    "email": "user@qq.com",
+    "password": "123456789",
+    "passwordConfirm": "123456789",
+    "username": "user",
+    "role": "user"
+  }
+]

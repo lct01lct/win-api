@@ -4,7 +4,7 @@ import { UsersModule } from './modules/users';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot('mongodb://localhost/win-db')],
+  imports: [UsersModule, MongooseModule.forRoot(process.env.DB)],
   controllers: [],
 })
 export class AppModule {
