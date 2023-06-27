@@ -1,9 +1,11 @@
 import { STATUS } from '@/types';
+import { logger } from '@/utils';
 import {
   ArgumentsHost,
   BadRequestException,
   ExceptionFilter,
   HttpException,
+  HttpStatus,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -18,7 +20,9 @@ export class MongoExpectionFilter implements ExceptionFilter {
       if (exception.name === 'MongoServerError') resolveMongoServerError(exception);
       if (exception.name === 'CastError') resolveCastError(exception);
 
-      res.status(500).json({
+      logger.error(exception);
+
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         status: STATUS.FAILED,
         message: exception,
       });

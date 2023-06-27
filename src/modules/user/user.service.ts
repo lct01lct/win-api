@@ -1,8 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Model } from 'mongoose';
+import { AppError } from '@/utils';
 
 @Injectable()
 export class UserService {
@@ -17,7 +18,7 @@ export class UserService {
   async getUser(id: string) {
     const user = await this.userModel.findById(id);
 
-    if (!user) throw new BadRequestException('Invalid ID!');
+    if (!user) throw new AppError('Invalid ID!', 400);
 
     return user;
   }

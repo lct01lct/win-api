@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User, UserDocument, UserService } from '../user';
 import { Response } from 'express';
 import { STATUS } from '@/types';
@@ -6,6 +6,7 @@ import { LoginDto } from './auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as jwt from 'jsonwebtoken';
+import { AppError } from '@/utils';
 
 @Injectable()
 export class AuthService {
@@ -14,16 +15,15 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const { password, username } = loginDto;
 
-    if (!password || !username)
-      throw new UnauthorizedException('Please provide username and password!');
+    if (!password || !username) throw new AppError('Please provide username and password!', 401);
 
     const user = await this.userModel.findOne({ username }).select('+password');
 
-    if (!user) throw new UnauthorizedException('Incorrect username or password!');
+    if (!user) throw new AppError('Incorrect username or password!', 401);
 
     const correct = user.correctPassword(user.password, password);
 
-    if (!correct) throw new UnauthorizedException('Incorrect username or password!');
+    if (!correct) throw new AppError('Incorrect username or password!', 401);
 
     return user;
   }
