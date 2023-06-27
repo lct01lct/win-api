@@ -1,6 +1,7 @@
 import { STATUS } from '@/types';
 import {
   ArgumentsHost,
+  BadRequestException,
   ExceptionFilter,
   HttpException,
   InternalServerErrorException,
@@ -15,6 +16,7 @@ export class MongoExpectionFilter implements ExceptionFilter {
     try {
       if (exception.name === 'ValidationError') resolveValidationError(exception);
       if (exception.name === 'MongoServerError') resolveMongoServerError(exception);
+      if (exception.name === 'CastError') resolveCastError(exception);
 
       res.status(500).json({
         status: STATUS.FAILED,
@@ -39,4 +41,9 @@ const resolveValidationError = (exception: HttpException) => {
 
 const resolveMongoServerError = (exception: HttpException) => {
   throw new InternalServerErrorException(exception.message);
+};
+
+const resolveCastError = (exception: HttpException) => {
+  // @ts-ignore
+  throw new BadRequestException(`Invalid ${exception.path}: ${exception.value}`);
 };

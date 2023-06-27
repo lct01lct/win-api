@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto, LoginDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './user.schema';
@@ -9,6 +9,8 @@ import { STATUS } from '@/types';
 
 @Injectable()
 export class UserService {
+  static JWT_KYE = process.env.JWT_KEY;
+
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getAllUser() {
@@ -17,6 +19,8 @@ export class UserService {
 
   async getUser(id: string) {
     const user = await this.userModel.findById(id);
+
+    if (!user) throw new BadRequestException('Invalid ID!');
 
     return user;
   }
@@ -55,10 +59,21 @@ export class UserService {
     return user;
   }
 
-  async sendToken(user: UserDocument, statusCode: number, res: Response) {
+  async logout(res: Response) {
+    res.cookie(UserService.JWT_KYE, 'loggedout', {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+    });
+
+    return {
+      status: STATUS.SUCCESS,
+    };
+  }
+
+  async sendToken(user: UserDocument, res: Response) {
     const token = await this.signToken(user);
 
-    res.cookie('jwt', token, {
+    res.cookie(UserService.JWT_KYE, token, {
       expires: new Date(
         Date.now() + parseInt(process.env.JWT_COOKIE_EXPIRED_IN!) * 24 * 60 * 60 * 1000
       ),
@@ -66,11 +81,11 @@ export class UserService {
       httpOnly: true,
     });
 
-    res.status(statusCode).json({
+    return {
       status: STATUS.SUCCESS,
       token,
       data: { user },
-    });
+    };
   }
 
   async signToken(user: UserDocument) {
