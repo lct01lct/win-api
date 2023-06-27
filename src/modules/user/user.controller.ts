@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   AuthGuard,
   FormatResponseInterceptor,

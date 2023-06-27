@@ -3,6 +3,7 @@ import { logger } from '@/utils';
 import {
   ArgumentsHost,
   BadRequestException,
+  Catch,
   ExceptionFilter,
   HttpException,
   HttpStatus,
@@ -10,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
+@Catch(HttpException)
 export class MongoExpectionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
