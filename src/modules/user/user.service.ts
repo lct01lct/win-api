@@ -1,11 +1,8 @@
-import { BadRequestException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto, LoginDto } from './user.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { CreateUserDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './user.schema';
+import { User } from './user.schema';
 import { Model } from 'mongoose';
-import * as jwt from 'jsonwebtoken';
-import { Response } from 'express';
-import { STATUS } from '@/types';
 
 @Injectable()
 export class UserService {
@@ -40,57 +37,5 @@ export class UserService {
 
   async deleteAllUser() {
     await this.userModel.deleteMany();
-  }
-
-  async login(loginDto: LoginDto) {
-    const { password, username } = loginDto;
-
-    if (!password || !username)
-      throw new UnauthorizedException('Please provide username and password!');
-
-    const user = await this.userModel.findOne({ username }).select('+password');
-
-    if (!user) throw new UnauthorizedException('Incorrect username or password!');
-
-    const correct = user.correctPassword(user.password, password);
-
-    if (!correct) throw new UnauthorizedException('Incorrect username or password!');
-
-    return user;
-  }
-
-  async logout(res: Response) {
-    res.cookie(UserService.JWT_KYE, 'loggedout', {
-      expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true,
-    });
-
-    return {
-      status: STATUS.SUCCESS,
-    };
-  }
-
-  async sendToken(user: UserDocument, res: Response) {
-    const token = await this.signToken(user);
-
-    res.cookie(UserService.JWT_KYE, token, {
-      expires: new Date(
-        Date.now() + parseInt(process.env.JWT_COOKIE_EXPIRED_IN!) * 24 * 60 * 60 * 1000
-      ),
-      secure: process.env.NODE_ENV === 'production', // https
-      httpOnly: true,
-    });
-
-    return {
-      status: STATUS.SUCCESS,
-      token,
-      data: { user },
-    };
-  }
-
-  async signToken(user: UserDocument) {
-    return await jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
-      expiresIn: process.env.JWT_EXPIRED_IN,
-    });
   }
 }
