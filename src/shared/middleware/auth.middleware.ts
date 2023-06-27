@@ -14,14 +14,16 @@ export class ProtectMiddleware implements NestMiddleware {
   async use(req: RequestWithUser, res: Response, next: NextFunction) {
     let token = '';
 
+    // @ts-ignore
     if (req.headers.authorization?.startsWith('Bearer ')) {
       token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies?.[process.env.JWT_KEY]) {
-      token = req.cookies[process.env.JWT_KEY];
+    } else if (req.cookies?.[process.env.JWT_KEY!]) {
+      token = req.cookies[process.env.JWT_KEY!];
     }
 
-    if (!token) throw new AppError('You are not logged in! Please log in to get access.', 400);
+    if (!token) throw new AppError('You are not logged in! Please log in to get access.', 401);
 
+    // @ts-ignore
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
     if (typeof decoded === 'string') throw new AppError('Jwt parse went wrong!', 401);

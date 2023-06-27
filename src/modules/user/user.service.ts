@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { AppError } from '@/utils';
 
 @Injectable()
@@ -24,8 +24,7 @@ export class UserService {
   }
 
   async createUser(user: CreateUserDto) {
-    const { username, email, password, passwordConfirm } = user;
-    const newUser = await this.userModel.create({ username, email, password, passwordConfirm });
+    const newUser = await this.userModel.create(user);
 
     // @ts-ignore
     newUser.password = undefined;
@@ -38,5 +37,9 @@ export class UserService {
 
   async deleteAllUser() {
     await this.userModel.deleteMany();
+  }
+
+  async getMe(id: ObjectId) {
+    return await this.userModel.findById(id);
   }
 }

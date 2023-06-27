@@ -4,7 +4,7 @@ import { AuthGuard } from '../guards';
 
 export const Roles = (...roles: Role[]) => SetMetadata(AuthGuard.ROLES_KEY, roles);
 
-export const User = createParamDecorator((data: string, ctx: ExecutionContext) => {
+export const Users = createParamDecorator((data: string, ctx: ExecutionContext) => {
   const req = ctx.switchToHttp().getRequest();
   const user = req.user;
 
