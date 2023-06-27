@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Model, ObjectId } from 'mongoose';
@@ -41,5 +41,22 @@ export class UserService {
 
   async getMe(id: ObjectId) {
     return await this.userModel.findById(id);
+  }
+
+  async updateMe(id: ObjectId, updateMeDto: UpdateUserDto) {
+    // @ts-ignore
+    if (updateMeDto['password']) {
+      throw new AppError('This route is not for password updates. Please contact admin', 400);
+    }
+
+    // @ts-ignore
+    if (updateMeDto['role']) {
+      throw new AppError('This route is not for role updates. Please contact admin', 403);
+    }
+
+    return await this.userModel.findByIdAndUpdate(id, updateMeDto, {
+      runValidators: true,
+      new: true,
+    });
   }
 }

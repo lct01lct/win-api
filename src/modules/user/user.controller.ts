@@ -1,4 +1,13 @@
-import { Controller, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   AuthGuard,
   FormatResponseInterceptor,
@@ -10,6 +19,7 @@ import {
 import { UserService } from './user.service';
 import { Role } from '@/types';
 import { ObjectId } from 'mongoose';
+import { UpdateUserDto } from './user.dto';
 
 @Controller(USER_API)
 @UseGuards(AuthGuard)
@@ -21,6 +31,12 @@ export class UserController {
   @Get(USER_INFO_API)
   async getMe(@Users('_id') id: ObjectId) {
     return await this.userService.getMe(id);
+  }
+
+  @Roles(Role.Admin, Role.User)
+  @Patch(USER_INFO_API)
+  async updateMe(@Users('_id') id: ObjectId, @Body() updateMeDto: UpdateUserDto) {
+    return await this.userService.updateMe(id, updateMeDto);
   }
 
   @Roles(Role.Admin)
