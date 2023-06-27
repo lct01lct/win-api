@@ -1,7 +1,7 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AuthGuard } from './shared/guards';
-import { MongoExpectionFilter } from './shared/filter';
+import { MongoExpectionFilter } from './shared';
 import morgan = require('morgan');
 
 (async () => {

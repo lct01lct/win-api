@@ -15,12 +15,27 @@ export class UserService {
     return await this.userModel.find();
   }
 
+  async getUser(id: string) {
+    const user = await this.userModel.findById(id);
+
+    return user;
+  }
+
   async createUser(user: CreateUserDto) {
     const { username, email, password, passwordConfirm } = user;
-
     const newUser = await this.userModel.create({ username, email, password, passwordConfirm });
 
+    // @ts-ignore
+    newUser.password = undefined;
     return newUser;
+  }
+
+  async createMultiUser(users: CreateUserDto[]) {
+    return await Promise.all(users.map(user => this.createUser(user)));
+  }
+
+  async deleteAllUser() {
+    await this.userModel.deleteMany();
   }
 
   async login(loginDto: LoginDto) {

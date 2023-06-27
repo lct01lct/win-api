@@ -1,45 +1,37 @@
 import { readFileSync } from 'fs';
-import { InjectModel, MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
-import { User, UserSchema } from '../modules/users';
-import { Module } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Inject, Module } from '@nestjs/common';
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { logger } from '@/utils';
+import { UserService, UserModule } from '@/modules/user';
+import { CreateUserDto } from '@/modules/user/user.dto';
 
 const readFile = <T>(path: string): T[] => {
   return JSON.parse(readFileSync(join(__dirname, path), 'utf-8')) as T[];
 };
 
 @Module({
-  imports: [
-    MongooseModule.forRoot(process.env.DB!),
-    MongooseModule.forFeature([
-      {
-        name: User.name,
-        schema: UserSchema,
-      },
-    ]),
-  ],
+  imports: [MongooseModule.forRoot(process.env.DB!), UserModule],
 })
 class ImportDataModule {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {
+  constructor(@Inject(UserService) private userService: UserService) {
     (async () => {
+      await this.deleteData();
       await this.importData();
       process.exit();
     })();
   }
 
   async deleteData() {
-    await Promise.all([this.userModel.deleteMany()]);
+    await Promise.all([this.userService.deleteAllUser()]);
     logger.success('Data successfully deleted!');
   }
 
   async importData() {
-    await this.deleteData();
-    const userData = readFile('./user.json');
-    await Promise.all([this.userModel.create(userData)]);
+    const userData = readFile<CreateUserDto>('./user.json');
+    await Promise.all([this.userService.createMultiUser(userData)]);
 
     logger.success('Data successfully loaded!');
   }

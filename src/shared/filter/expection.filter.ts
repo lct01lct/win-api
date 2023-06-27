@@ -5,16 +5,21 @@ import {
   HttpException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
 export class MongoExpectionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const req = ctx.getRequest<Request>();
     const res = ctx.getResponse<Response>();
 
     try {
       if (exception.name === 'ValidationError') resolveValidationError(exception);
+      if (exception.name === 'MongoServerError') resolveMongoServerError(exception);
+
+      res.status(500).json({
+        status: STATUS.FAILED,
+        message: exception,
+      });
     } catch (err: unknown) {
       const _err = err as HttpException;
       const statusCode = _err.getStatus();
@@ -29,5 +34,9 @@ export class MongoExpectionFilter implements ExceptionFilter {
 }
 
 const resolveValidationError = (exception: HttpException) => {
+  throw new InternalServerErrorException(exception.message);
+};
+
+const resolveMongoServerError = (exception: HttpException) => {
   throw new InternalServerErrorException(exception.message);
 };

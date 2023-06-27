@@ -40,3 +40,15 @@ const correctPassword = async (candidatePassword: string, userPassword: string) 
 };
 
 UserSchema.methods.correctPassword = correctPassword;
+
+export const UserSchemaProvider = {
+  name: User.name,
+  useFactory: () => {
+    UserSchema.pre('save', async function () {
+      this.password = await bcrypt.hash(this.password, 12);
+      this.passwordConfirm = undefined;
+    });
+
+    return UserSchema;
+  },
+};

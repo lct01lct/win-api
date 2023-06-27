@@ -1,10 +1,10 @@
 import 'dotenv/config';
 import { Module, NestApplicationOptions } from '@nestjs/common';
-import { UsersModule } from './modules/users';
+import { UserModule } from './modules/user';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot(process.env.DB)],
+  imports: [UserModule, MongooseModule.forRoot(process.env.DB)],
   controllers: [],
 })
 export class AppModule {
