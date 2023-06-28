@@ -3,9 +3,11 @@ import { AppModule } from './app.module';
 import { MongoExpectionFilter } from './shared';
 import * as cookieParser from 'cookie-parser';
 import morgan = require('morgan');
+import { logger } from './utils';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 (async () => {
-  const app = await NestFactory.create(AppModule, AppModule.appConfig);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, AppModule.appConfig);
 
   if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
   app.use(cookieParser());
@@ -17,4 +19,5 @@ import morgan = require('morgan');
   });
 
   await app.listen(AppModule.PORT);
+  logger.success(`Application is running on: ${await app.getUrl()}`);
 })();

@@ -1,5 +1,5 @@
 import { STATUS } from '@/types';
-import { logger } from '@/utils';
+
 import {
   ArgumentsHost,
   BadRequestException,

@@ -30,6 +30,9 @@ export class User {
   @Prop({ enum: Object.values(Role), default: Role.User })
   role: Role;
 
+  @Prop({ type: String, default: '/img/user/default/user.png' })
+  avatar: string;
+
   correctPassword: typeof correctPassword;
 }
 
