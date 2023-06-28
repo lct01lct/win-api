@@ -9,5 +9,5 @@ import { MongooseModule } from '@nestjs/mongoose';
 })
 export class AppModule {
   public static PORT: number = Number(process.env.PORT);
-  public static appConfig: NestApplicationOptions = { logger: ['error', 'warn'], cors: true };
+  public static appConfig: NestApplicationOptions = { logger: ['error', 'warn'] };
 }

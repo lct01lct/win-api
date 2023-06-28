@@ -18,7 +18,8 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const user = await this.authService.login(loginDto);
-
+    // @ts-ignore
+    user.password = undefined;
     return this.authService.sendToken(user, res);
   }
 

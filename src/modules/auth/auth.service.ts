@@ -21,7 +21,7 @@ export class AuthService {
 
     if (!user) throw new AppError('Incorrect username or password!', 401);
 
-    const correct = user.correctPassword(user.password, password);
+    const correct = await user.correctPassword(user.password, password);
 
     if (!correct) throw new AppError('Incorrect username or password!', 401);
 
