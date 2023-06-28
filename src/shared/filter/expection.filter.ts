@@ -22,9 +22,7 @@ export class MongoExpectionFilter implements ExceptionFilter {
       if (exception.name === 'MongoServerError') resolveMongoServerError(exception);
       if (exception.name === 'CastError') resolveCastError(exception);
 
-      logger.error(exception);
-
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      res.status(exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR).json({
         status: STATUS.FAILED,
         message: exception,
       });
