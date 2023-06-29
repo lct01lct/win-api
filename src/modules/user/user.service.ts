@@ -20,7 +20,7 @@ export class UserService {
 
     if (!user) throw new AppError('Invalid ID!', 400);
 
-    return user;
+    return { user };
   }
 
   async createUser(user: CreateUserDto) {
@@ -28,7 +28,7 @@ export class UserService {
 
     // @ts-ignore
     newUser.password = undefined;
-    return newUser;
+    return { user: newUser };
   }
 
   async createMultiUser(users: CreateUserDto[]) {
@@ -40,7 +40,8 @@ export class UserService {
   }
 
   async getMe(id: ObjectId) {
-    return await this.userModel.findById(id);
+    const user = await this.userModel.findById(id);
+    return { user };
   }
 
   async updateMe(id: ObjectId, updateMeDto: UpdateUserDto) {
@@ -54,9 +55,11 @@ export class UserService {
       throw new AppError('This route is not for role updates. Please contact admin', 403);
     }
 
-    return await this.userModel.findByIdAndUpdate(id, updateMeDto, {
+    const newUser = await this.userModel.findByIdAndUpdate(id, updateMeDto, {
       runValidators: true,
       new: true,
     });
+
+    return { user: newUser };
   }
 }
