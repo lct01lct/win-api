@@ -1,5 +1,5 @@
 import { Role } from '@/types';
-import { User } from './user.schema';
+
 export interface CreateUserDto {
   username: string;
   email: string;
@@ -9,6 +9,8 @@ export interface CreateUserDto {
 }
 
 export interface UpdateUserDto {
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
+  avatar?: Express.Multer.File;
+  wallpaper?: Express.Multer.File;
 }

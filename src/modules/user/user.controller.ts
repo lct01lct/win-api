@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   AuthGuard,
   FormatResponseInterceptor,
@@ -11,12 +21,13 @@ import { UserService } from './user.service';
 import { Role } from '@/types';
 import { ObjectId } from 'mongoose';
 import { UpdateUserDto } from './user.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
 @Controller(USER_API)
 @UseGuards(AuthGuard)
 @UseInterceptors(FormatResponseInterceptor)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(@Inject(UserService) private readonly userService: UserService) {}
 
   @Roles(Role.Admin, Role.User)
   @Get(USER_INFO_API)
@@ -26,7 +37,19 @@ export class UserController {
 
   @Roles(Role.Admin, Role.User)
   @Patch(USER_INFO_API)
-  async updateMe(@Users('_id') id: ObjectId, @Body() updateMeDto: UpdateUserDto) {
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'wallpaper' }, { name: 'avatar' }]))
+  async updateMe(
+    @Users('_id') id: ObjectId,
+    @Body() updateMeDto: UpdateUserDto,
+    @UploadedFiles()
+    files?: {
+      wallpaper: Express.Multer.File[];
+      avatar: Express.Multer.File[];
+    }
+  ) {
+    updateMeDto.avatar = files?.avatar?.[0];
+    updateMeDto.wallpaper = files?.wallpaper?.[0];
+
     return await this.userService.updateMe(id, updateMeDto);
   }
 

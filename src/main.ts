@@ -14,7 +14,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
   app.useGlobalFilters(new MongoExpectionFilter());
   app.enableCors({
     origin: 'http://127.0.0.1:8000',
-    methods: ['get', 'post', 'delete', 'patch', 'put'],
+    methods: ['GET', 'POST', 'DELETE', 'PATCH', 'PUT'],
     credentials: true,
   });
 

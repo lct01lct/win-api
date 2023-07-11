@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "commit": "git cz",
+    "commit": "git add . && git cz",
     "data": "tsnd -r tsconfig-paths/register src/dev-data/import-data.ts --files"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "@nestjs/serve-static": "^4.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/morgan": "^1.9.4",
+    "@types/multer": "^1.4.7",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",

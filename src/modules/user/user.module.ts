@@ -4,9 +4,10 @@ import { UserService } from './user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchemaProvider } from './user.schema';
 import { ProtectMiddleware } from '@/shared/middleware/auth.middleware';
+import { FileModule } from '../file';
 
 @Module({
-  imports: [MongooseModule.forFeatureAsync([UserSchemaProvider])],
+  imports: [FileModule, MongooseModule.forFeatureAsync([UserSchemaProvider])],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

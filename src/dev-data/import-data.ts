@@ -8,7 +8,7 @@ import { logger } from '@/utils';
 import { UserService, UserModule } from '@/modules/user';
 import { CreateUserDto } from '@/modules/user/user.dto';
 
-const readFile = <T>(path: string): T[] => {
+const readFile = <T = any>(path: string): T[] => {
   return JSON.parse(readFileSync(join(__dirname, path), 'utf-8')) as T[];
 };
 

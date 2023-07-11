@@ -1,15 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Model, ObjectId } from 'mongoose';
 import { AppError } from '@/utils';
+import { FileService } from '../file';
 
 @Injectable()
 export class UserService {
   static JWT_KYE = process.env.JWT_KEY;
 
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    @Inject(FileService) private fileService: FileService
+  ) {}
 
   async getAllUser() {
     return await this.userModel.find();
@@ -55,10 +59,14 @@ export class UserService {
       throw new AppError('This route is not for role updates. Please contact admin', 403);
     }
 
-    const newUser = await this.userModel.findByIdAndUpdate(id, updateMeDto, {
-      runValidators: true,
-      new: true,
-    });
+    const newUser = await this.userModel.findByIdAndUpdate(
+      id,
+      { username: updateMeDto.username, email: updateMeDto.email },
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
 
     return { user: newUser };
   }

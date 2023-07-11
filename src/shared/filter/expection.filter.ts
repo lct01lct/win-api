@@ -1,4 +1,5 @@
 import { STATUS } from '@/types';
+import { logger } from '@/utils';
 
 import {
   ArgumentsHost,
@@ -30,7 +31,7 @@ export class MongoExpectionFilter implements ExceptionFilter {
       const _err = err as HttpException;
       const statusCode = _err.getStatus();
       const message = _err.message;
-
+      logger.error(err);
       res.status(statusCode).json({
         status: STATUS.FAILED,
         message,
