@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { readFileSync } from 'fs';
+import { readFileSync, readdirSync, rmdirSync, unlinkSync } from 'fs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { Inject, Module } from '@nestjs/common';
@@ -25,7 +25,7 @@ class ImportDataModule {
   }
 
   async deleteData() {
-    await Promise.all([this.userService.deleteAllUser()]);
+    await Promise.all([this.userService.deleteAllUser(), this.deleteUserDir()]);
     logger.success('Data successfully deleted!');
   }
 
@@ -34,6 +34,20 @@ class ImportDataModule {
     await Promise.all([this.userService.createMultiUser(userData)]);
 
     logger.success('Data successfully loaded!');
+  }
+
+  async deleteUserDir() {
+    const userDir = join(__dirname, '../../public/img/user');
+
+    readdirSync(userDir).forEach(dir => {
+      if (dir !== 'default') {
+        const _userDir = join(userDir, dir);
+        readdirSync(_userDir).forEach(file => {
+          unlinkSync(join(_userDir, file));
+        });
+        rmdirSync(_userDir);
+      }
+    });
   }
 }
 
