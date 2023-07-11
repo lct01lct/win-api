@@ -32,11 +32,7 @@ export class FileService {
     } catch {
       mkdirSync(dirPath);
     } finally {
-      const { filePath: newfilePath, filename: newFileName } = await this.handleImage(
-        file,
-        dirPath,
-        option
-      );
+      const { filename: newFileName } = await this.handleImage(file, dirPath, option);
       const user = await this.userModel.findById(userId);
 
       const originPath = new URL(user?.[field] as string).pathname;
