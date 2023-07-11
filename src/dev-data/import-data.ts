@@ -1,8 +1,8 @@
+import 'dotenv/config';
 import { readFileSync } from 'fs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { Inject, Module } from '@nestjs/common';
-import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { logger } from '@/utils';
 import { UserService, UserModule } from '@/modules/user';

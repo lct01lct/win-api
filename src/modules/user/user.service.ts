@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
@@ -49,6 +49,7 @@ export class UserService {
   }
 
   async updateMe(id: ObjectId, updateMeDto: UpdateUserDto) {
+    const updateUser: Partial<User> = { username: updateMeDto.username, email: updateMeDto.email };
     // @ts-ignore
     if (updateMeDto['password']) {
       throw new AppError('This route is not for password updates. Please contact admin', 400);
@@ -59,14 +60,32 @@ export class UserService {
       throw new AppError('This route is not for role updates. Please contact admin', 403);
     }
 
-    const newUser = await this.userModel.findByIdAndUpdate(
-      id,
-      { username: updateMeDto.username, email: updateMeDto.email },
-      {
-        runValidators: true,
-        new: true,
-      }
-    );
+    const wallpaper = updateMeDto['wallpaper'];
+    if (wallpaper) {
+      const newWallpaper = await this.fileService.updateUserFile(id, wallpaper, 'wallpaper', {
+        resizeWidth: 3840,
+        resizeHeight: 2000,
+        toFormat: 'jpeg',
+      });
+
+      updateUser.wallpaper = newWallpaper;
+    }
+
+    const avatar = updateMeDto['avatar'];
+    if (avatar) {
+      const newAvatar = await this.fileService.updateUserFile(id, avatar, 'avatar', {
+        resizeWidth: 448,
+        resizeHeight: 448,
+        toFormat: 'jpeg',
+      });
+
+      updateUser.avatar = newAvatar;
+    }
+
+    const newUser = await this.userModel.findByIdAndUpdate(id, updateUser, {
+      runValidators: true,
+      new: true,
+    });
 
     return { user: newUser };
   }
