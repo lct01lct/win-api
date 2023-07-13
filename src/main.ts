@@ -6,11 +6,13 @@ import * as cookieParser from 'cookie-parser';
 import morgan = require('morgan');
 import { logger } from './utils';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { VersioningType } from '@nestjs/common';
 
 (async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, AppModule.appConfig);
 
   if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+  app.setGlobalPrefix(process.env.PREFIX);
   app.use(cookieParser());
   app.useGlobalFilters(new MongoExpectionFilter());
   app.enableCors({
