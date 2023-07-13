@@ -5,8 +5,11 @@ import { join } from 'path';
 @Injectable()
 export class ResourceService {
   getAllWallPapers() {
+    const DEFAULT_WALLPAPER_COUNT = 7;
+
     return {
-      wallpapers: Array(7)
+      result: DEFAULT_WALLPAPER_COUNT,
+      wallpapers: Array(DEFAULT_WALLPAPER_COUNT)
         .fill(void 0)
         .map((_, index) => this.getWallPaper(index)),
     };
