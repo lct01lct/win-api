@@ -55,7 +55,7 @@ export class UserController {
   @Get()
   async getAllUser() {
     const users = await this.userService.getAllUser();
-    return { length: users.length, users };
+    return { result: users.length, users };
   }
 
   @Roles(Role.Admin)
