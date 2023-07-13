@@ -49,7 +49,11 @@ export class UserService {
   }
 
   async updateMe(id: ObjectId, updateMeDto: UpdateUserDto) {
-    const updateUser: Partial<User> = { username: updateMeDto.username, email: updateMeDto.email };
+    const updateUser: Partial<User> = {
+      username: updateMeDto.username,
+      email: updateMeDto.email,
+      wallpaper: updateMeDto.wallpaper as string,
+    };
     // @ts-ignore
     if (updateMeDto['password']) {
       throw new AppError('This route is not for password updates. Please contact admin', 400);
@@ -61,7 +65,7 @@ export class UserService {
     }
 
     const wallpaper = updateMeDto['wallpaper'];
-    if (wallpaper) {
+    if (wallpaper && typeof wallpaper !== 'string') {
       const newWallpaper = await this.fileService.updateUserFile(id, wallpaper, 'wallpaper', {
         resizeWidth: 3840,
         resizeHeight: 2000,

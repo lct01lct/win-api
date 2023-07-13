@@ -45,8 +45,11 @@ export class UserController {
       avatar: Express.Multer.File[];
     }
   ) {
-    updateMeDto.avatar = files?.avatar?.[0];
-    updateMeDto.wallpaper = files?.wallpaper?.[0];
+    updateMeDto = {
+      ...updateMeDto,
+      avatar: files?.avatar?.[0],
+      wallpaper: updateMeDto.wallpaper || files?.wallpaper?.[0],
+    };
 
     return await this.userService.updateMe(id, updateMeDto);
   }

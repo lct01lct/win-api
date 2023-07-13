@@ -12,5 +12,5 @@ export interface UpdateUserDto {
   username?: string;
   email?: string;
   avatar?: Express.Multer.File;
-  wallpaper?: Express.Multer.File;
+  wallpaper?: Express.Multer.File | string;
 }
