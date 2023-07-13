@@ -29,13 +29,11 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 export class UserController {
   constructor(@Inject(UserService) private readonly userService: UserService) {}
 
-  @Roles(Role.Admin, Role.User)
   @Get(USER_INFO_API)
   async getMe(@Users('_id') id: ObjectId) {
     return await this.userService.getMe(id);
   }
 
-  @Roles(Role.Admin, Role.User)
   @Patch(USER_INFO_API)
   @UseInterceptors(FileFieldsInterceptor([{ name: 'wallpaper' }, { name: 'avatar' }]))
   async updateMe(

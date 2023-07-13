@@ -10,25 +10,18 @@ export class AuthGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(ctx: ExecutionContext) {
-    const requiredRoles: Role[] = this.reflector.getAllAndOverride(AuthGuard.ROLES_KEY, [
-      ctx.getHandler(),
-      ctx.getClass(),
-    ]);
+    const requiredRoles: Role[] =
+      this.reflector.getAllAndOverride(AuthGuard.ROLES_KEY, [ctx.getHandler(), ctx.getClass()]) ||
+      [];
 
     const req: RequestWithUser = ctx.switchToHttp().getRequest();
-    const isPermission = requiredRoles.includes(req.user.role);
+
+    const isPermission = !requiredRoles.length || requiredRoles.includes(req.user.role);
 
     if (!isPermission) {
       throw new AppError('You do not have permission to perform this action', 403);
     }
 
-    return requiredRoles.includes(req.user.role);
-  }
-}
-
-@Injectable()
-export class isLoginGuard implements CanActivate {
-  canActivate(ctx: ExecutionContext) {
     return true;
   }
 }

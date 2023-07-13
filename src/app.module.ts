@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import 'dotenv/config';
+import { ResourceModule } from './modules/resource';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import 'dotenv/config';
       rootPath: join(__dirname, '..', 'public'),
       exclude: ['/api/(.*)'],
     }),
+    ResourceModule,
     UserModule,
     AuthModule,
   ],
