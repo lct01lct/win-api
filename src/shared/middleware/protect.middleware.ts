@@ -26,6 +26,7 @@ export class ProtectMiddleware implements NestMiddleware {
     }
 
     try {
+      // @ts-ignore
       const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
       if (typeof decoded === 'string') throw new AppError('Jwt parse went wrong!', 401);

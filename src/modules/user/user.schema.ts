@@ -2,8 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Role } from '@/types';
 import * as bcrypt from 'bcryptjs';
-import { join } from 'path';
-import { getServerConfig } from '@/config';
+import { fillBaseUrl } from '@/config';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -34,13 +33,13 @@ export class User {
 
   @Prop({
     type: String,
-    default: join(getServerConfig().baseUrl, `/img/user/default/user_avatar_default_0.png`),
+    default: fillBaseUrl(`/img/user/default/user_avatar_default_0.png`),
   })
   avatar: string;
 
   @Prop({
     type: String,
-    default: join(getServerConfig().baseUrl, `/img/user/default/wallpaper_default_0.jpg`),
+    default: fillBaseUrl(`/img/user/default/wallpaper_default_0.jpg`),
   })
   wallpaper: string;
 

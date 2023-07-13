@@ -1,12 +1,11 @@
-import { getServerConfig } from '@/config';
+import { fillBaseUrl } from '@/config';
 import { Injectable } from '@nestjs/common';
-import { join } from 'path';
 
 @Injectable()
 export class ResourceService {
   getAllWallPapers() {
     const DEFAULT_WALLPAPER_COUNT = 7;
-
+    console.log(this.getWallPaper(10));
     return {
       result: DEFAULT_WALLPAPER_COUNT,
       wallpapers: Array(DEFAULT_WALLPAPER_COUNT)
@@ -16,6 +15,6 @@ export class ResourceService {
   }
 
   private getWallPaper(index: number) {
-    return join(getServerConfig().baseUrl, `/img/user/default/wallpaper_default_${index}.jpg`);
+    return fillBaseUrl(`/img/user/default/wallpaper_default_${index}.jpg`);
   }
 }

@@ -7,7 +7,7 @@ import * as sharp from 'sharp';
 import { AvailableFormatInfo, FormatEnum } from 'sharp';
 import { join } from 'path';
 import { accessSync, mkdirSync, constants, existsSync, unlinkSync } from 'fs';
-import { getServerConfig } from '@/config';
+import { fillBaseUrl } from '@/config';
 
 export interface FormatImageOption {
   resizeWidth?: number;
@@ -76,6 +76,6 @@ export class FileService {
   }
 
   private handleFilePathInServer(userId: ObjectId, filename: string) {
-    return join(getServerConfig().baseUrl, `/img/user/${userId}`, filename);
+    return fillBaseUrl(`/img/user/${userId}/${filename}`);
   }
 }
