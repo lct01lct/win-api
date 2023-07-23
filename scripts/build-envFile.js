@@ -14,4 +14,4 @@ JWT_EXPIRED_IN = 90d
 JWT_COOKIE_EXPIRED_IN = 90d 
 `;
 
-fs.writeFileSync(path.join(__dirname, './env'), envTemplate);
+fs.writeFileSync(path.join(__dirname, '../env'), envTemplate);
