@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchemaProvider } from './user.schema';
+import { UserModelDefinition } from './user.schema';
 import { FileModule } from '../file';
 import { ProtectModule } from '@/shared/middleware';
 
@@ -10,7 +10,7 @@ import { ProtectModule } from '@/shared/middleware';
   imports: [
     ProtectModule.forFeature(UserController),
     FileModule,
-    MongooseModule.forFeatureAsync([UserSchemaProvider]),
+    MongooseModule.forFeatureAsync([UserModelDefinition]),
   ],
   controllers: [UserController],
   providers: [UserService],

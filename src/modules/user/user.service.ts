@@ -39,7 +39,7 @@ export class UserService {
     return await Promise.all(users.map(user => this.createUser(user)));
   }
 
-  async deleteAllUser() {
+  async deleteAllUsers() {
     await this.userModel.deleteMany();
   }
 

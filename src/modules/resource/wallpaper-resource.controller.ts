@@ -1,11 +1,11 @@
 import { FormatResponseInterceptor, RESOURCE_API, WALLPAPER_API } from '@/shared';
 import { Controller, Get, UseInterceptors } from '@nestjs/common';
-import { ResourceService } from './resource.service';
+import { WallpaperResourceService } from './wallpaper-resource.service';
 
 @UseInterceptors(FormatResponseInterceptor)
 @Controller(RESOURCE_API)
-export class ResourceController {
-  constructor(private resourceService: ResourceService) {}
+export class WallpaperResourceController {
+  constructor(private resourceService: WallpaperResourceService) {}
 
   @Get(WALLPAPER_API)
   getAllDefaultWallpaper() {

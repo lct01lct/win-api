@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchemaProvider } from '../user/user.schema';
+import { UserModelDefinition } from '../user/user.schema';
 import { FileService } from './file.service';
 
 @Module({
-  imports: [MongooseModule.forFeatureAsync([UserSchemaProvider])],
+  imports: [MongooseModule.forFeatureAsync([UserModelDefinition])],
   providers: [FileService],
   exports: [FileService],
 })

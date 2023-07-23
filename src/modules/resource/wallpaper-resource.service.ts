@@ -2,7 +2,7 @@ import { fillBaseUrl } from '@/config';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ResourceService {
+export class WallpaperResourceService {
   getAllWallPapers() {
     const DEFAULT_WALLPAPER_COUNT = 7;
     console.log(this.getWallPaper(10));

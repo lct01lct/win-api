@@ -1,3 +1,3 @@
-export * from './resource.controller';
+export * from './wallpaper-resource.controller';
 export * from './resource.module';
-export * from './resource.service';
+export * from './wallpaper-resource.service';

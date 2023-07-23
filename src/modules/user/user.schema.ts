@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { AsyncModelFactory, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Role } from '@/types';
 import * as bcrypt from 'bcryptjs';
@@ -54,7 +54,7 @@ const correctPassword = async (candidatePassword: string, userPassword: string) 
 
 UserSchema.methods.correctPassword = correctPassword;
 
-export const UserSchemaProvider = {
+export const UserModelDefinition: AsyncModelFactory = {
   name: User.name,
   useFactory: () => {
     UserSchema.pre('save', async function () {
