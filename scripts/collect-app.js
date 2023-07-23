@@ -1,6 +1,7 @@
 // @ts-check
 const fs = require('fs');
 const path = require('path');
+require('dotenv/config');
 
 function copyFolderRecursiveSync(source, destination) {
   // 获取源文件夹中的所有文件和子文件夹

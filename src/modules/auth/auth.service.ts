@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as jwt from 'jsonwebtoken';
 import { AppError } from '@/utils';
+import { LOGGEDOUTMESS } from '@/shared';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,7 @@ export class AuthService {
   }
 
   async logout(res: Response) {
-    res.cookie(UserService.JWT_KYE, 'loggedout', {
+    res.cookie(UserService.JWT_KYE, LOGGEDOUTMESS, {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
     });
