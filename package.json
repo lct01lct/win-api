@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "commit": "git add . && git cz",
     "data": "tsnd -r tsconfig-paths/register src/dev-data/import-data.ts --files",
-    "get:app": "node ./scripts/collect-app.js"
+    "get:app": "node ./scripts/collect-app.js",
+    "build:env": "node ./scripts/build-envFile.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

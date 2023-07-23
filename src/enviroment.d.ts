@@ -4,6 +4,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'production' | 'development' | 'IMPORT_DATA_ENVIROMENT';
+      FRONT_END_PROJECT_NAME: string;
       SERVER_DEV_ROOT: string;
       PUBLIC_ROOT: string;
       PORT: string;

@@ -1,15 +1,6 @@
 // @ts-check
-
 const fs = require('fs');
 const path = require('path');
-
-const res = fs
-  .readdirSync(path.join(__dirname, '../../Win10-in-Vue/packages/app-store/dist'), {
-    withFileTypes: true,
-  })
-  .filter(file => {
-    return file.isFile();
-  });
 
 function copyFolderRecursiveSync(source, destination) {
   // 获取源文件夹中的所有文件和子文件夹
@@ -37,6 +28,6 @@ function copyFolderRecursiveSync(source, destination) {
 }
 
 copyFolderRecursiveSync(
-  path.join(__dirname, '../../Win10-in-Vue/packages/app-store/dist'),
+  path.join(__dirname, `../../${process.env.FRONT_END_PROJECT_NAME}/packages/app-store/dist`),
   path.join(__dirname, '../public/apps')
 );
