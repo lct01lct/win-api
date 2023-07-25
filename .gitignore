@@ -5,3 +5,4 @@ dist
 /src/dev-data/app.json
 !/public/img/user/default
 
+public/apps
