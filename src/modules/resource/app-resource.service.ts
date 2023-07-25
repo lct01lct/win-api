@@ -17,7 +17,12 @@ export class ApplicationResourceService {
   }
 
   async getAllApplications() {
-    return await this.appModel.find();
+    const apps = await this.appModel.find();
+
+    return {
+      result: apps.length,
+      apps,
+    };
   }
 
   async getApplication(query: { id?: ObjectId; name?: string }) {

@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class WallpaperResourceService {
   getAllWallPapers() {
     const DEFAULT_WALLPAPER_COUNT = 7;
-    console.log(this.getWallPaper(10));
+
     return {
       result: DEFAULT_WALLPAPER_COUNT,
       wallpapers: Array(DEFAULT_WALLPAPER_COUNT)
