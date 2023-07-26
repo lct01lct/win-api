@@ -49,3 +49,14 @@ copyFolderRecursiveSync(
   path.join(__dirname, `../../${process.env.FRONT_END_PROJECT_NAME}/packages/app-store/dist`),
   path.join(__dirname, '../public/apps')
 );
+
+// write json
+const appDirectories = fs
+  .readdirSync(path.join(__dirname, '../public/apps'), { withFileTypes: true })
+  .filter(dir =>
+    fs.readdirSync(path.join(__dirname, `../public/apps/${dir.name}`)).includes('logo.png')
+  )
+  .map(dir => dir.name);
+const jsonPath = path.join(__dirname, '../src/dev-data/app.json');
+const jsonContent = appDirectories.map(name => ({ name }));
+fs.writeFileSync(jsonPath, JSON.stringify(jsonContent));

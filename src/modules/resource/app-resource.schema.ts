@@ -1,5 +1,5 @@
 import { fillBaseUrl } from '@/config';
-import { AsyncModelFactory, ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type ApplicationDocument = HydratedDocument<Application>;
@@ -13,10 +13,19 @@ export class Application {
     required: true,
     type: String,
     default: function (this: Application) {
-      this.downloadLink = fillBaseUrl(`/apps/${this.name}.js`);
+      this.downloadLink = fillBaseUrl(`/apps/${this.name}/index.js`);
     },
   })
   downloadLink: string;
+
+  @Prop({
+    required: true,
+    type: String,
+    default: function (this: Application) {
+      this.downloadLink = fillBaseUrl(`/apps/${this.name}/logo.png`);
+    },
+  })
+  icon: string;
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);
