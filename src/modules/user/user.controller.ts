@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -74,7 +75,7 @@ export class UserController {
     return await this.userService.getUser(id);
   }
 
-  @Post(DOWNLOADED_APP_API + '/:id')
+  @Put(DOWNLOADED_APP_API + '/:id')
   async addDownloadedApp(@Users('_id') userId: ObjectId, @Param('id') appId: ObjectId) {
     return this.appService.addDownloadedAppToUser(appId, userId);
   }

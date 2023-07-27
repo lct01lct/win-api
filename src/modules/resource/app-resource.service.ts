@@ -41,10 +41,13 @@ export class ApplicationResourceService {
     return await this.userModel
       .findByIdAndUpdate(
         userId,
-        { $push: { downloadedApp: appId } },
+        { $addToSet: { downloadedApp: appId } },
         { new: true, runValidators: true }
       )
-      .select('downloadedApp -_id');
+      .select({
+        downloadedApp: true,
+        _id: false,
+      });
   }
 
   async deleteDownloadedAppToUser(appId: ObjectId, userId: ObjectId) {
