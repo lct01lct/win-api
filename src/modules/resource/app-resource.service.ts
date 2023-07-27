@@ -29,8 +29,8 @@ export class ApplicationResourceService {
     };
   }
 
-  async getApplication(query: { id?: ObjectId; name?: string }) {
-    return await this.appModel.findById(query);
+  async getApplication(query: { _id?: ObjectId; name?: string }) {
+    return { app: await this.appModel.findOne(query) };
   }
 
   async deleteAllApplications(): Promise<any> {

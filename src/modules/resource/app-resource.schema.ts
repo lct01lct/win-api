@@ -10,7 +10,6 @@ export class Application {
   name: string;
 
   @Prop({
-    required: true,
     type: String,
     default: function (this: Application) {
       this.downloadLink = fillBaseUrl(`/apps/${this.name}/index.js`);
@@ -21,7 +20,7 @@ export class Application {
   @Prop({
     type: String,
     default: function (this: Application) {
-      this.downloadLink = fillBaseUrl(`/apps/${this.name}/logo.png`);
+      this.icon = fillBaseUrl(`/apps/${this.name}/logo.png`);
     },
   })
   icon: string;

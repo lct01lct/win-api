@@ -36,7 +36,7 @@ export class ApplicationResourceController {
 
   @Get(APPLICATION_API + '/:id')
   async getApplcation(@Param('id') id: ObjectId) {
-    return await this.appService.getApplication({ id });
+    return await this.appService.getApplication({ _id: id });
   }
 
   @Post(APPLICATION_API)
