@@ -24,6 +24,15 @@ export class Application {
     },
   })
   icon: string;
+
+  @Prop({ type: Number, default: 4 + Math.random(), min: 0, max: 5 })
+  rating: number;
+
+  @Prop({ type: String, enum: ['应用', '游戏'], default: '应用' })
+  type: '应用' | '游戏';
+
+  @Prop({ type: String, default: '免费应用' })
+  desc: string;
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);
