@@ -19,7 +19,6 @@ export class Application {
   downloadLink: string;
 
   @Prop({
-    required: true,
     type: String,
     default: function (this: Application) {
       this.downloadLink = fillBaseUrl(`/apps/${this.name}/logo.png`);
