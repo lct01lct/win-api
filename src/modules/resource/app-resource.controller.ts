@@ -1,5 +1,20 @@
-import { APPLICATION_API, FormatResponseInterceptor, RESOURCE_API } from '@/shared';
-import { Controller, Get, Inject, Param, Post, Query, UseInterceptors } from '@nestjs/common';
+import {
+  APPLICATION_API,
+  DOWNLOADED_APP_API,
+  FormatResponseInterceptor,
+  RESOURCE_API,
+  Users,
+} from '@/shared';
+import {
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { ApplicationResourceService } from './app-resource.service';
 import { ObjectId } from 'mongoose';

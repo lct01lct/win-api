@@ -1,16 +1,19 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
   Patch,
+  Post,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
   AuthGuard,
+  DOWNLOADED_APP_API,
   FormatResponseInterceptor,
   Roles,
   USER_API,
@@ -22,12 +25,16 @@ import { Role } from '@/types';
 import { ObjectId } from 'mongoose';
 import { UpdateUserDto } from './user.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { ApplicationResourceService } from '../resource/app-resource.service';
 
 @Controller(USER_API)
 @UseGuards(AuthGuard)
 @UseInterceptors(FormatResponseInterceptor)
 export class UserController {
-  constructor(@Inject(UserService) private readonly userService: UserService) {}
+  constructor(
+    @Inject(UserService) private readonly userService: UserService,
+    @Inject(ApplicationResourceService) private readonly appService: ApplicationResourceService
+  ) {}
 
   @Get(USER_INFO_API)
   async getMe(@Users('_id') id: ObjectId) {
@@ -65,5 +72,15 @@ export class UserController {
   @Get(':id')
   async getUser(@Param('id') id: string) {
     return await this.userService.getUser(id);
+  }
+
+  @Post(DOWNLOADED_APP_API + '/:id')
+  async addDownloadedApp(@Users('_id') userId: ObjectId, @Param('id') appId: ObjectId) {
+    return this.appService.addDownloadedAppToUser(appId, userId);
+  }
+
+  @Delete(DOWNLOADED_APP_API + '/:id')
+  async deleteDownloadedApp(@Users('_id') userId: ObjectId, @Param('id') appId: ObjectId) {
+    return this.appService.deleteDownloadedAppToUser(appId, userId);
   }
 }

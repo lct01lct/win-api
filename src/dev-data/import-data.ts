@@ -34,7 +34,7 @@ class ImportDataModule {
     await Promise.all([
       this.userService.deleteAllUsers(),
       this.deleteUserDir(),
-      this.appService.deleteAllApplications(),
+      // this.appService.deleteAllApplications(),
     ]);
     logger.success('Data successfully deleted!');
   }
@@ -44,7 +44,7 @@ class ImportDataModule {
     const applicationData = readFile<CreateApplicationResourceDto>('./app.json');
     await Promise.all([
       this.userService.createMultiUser(userData),
-      this.appService.createMutilApplcation(applicationData),
+      // this.appService.createMutilApplcation(applicationData),
     ]);
 
     logger.success('Data successfully loaded!');

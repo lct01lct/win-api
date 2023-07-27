@@ -9,3 +9,5 @@ export const USER_INFO_API = 'me';
 export const WALLPAPER_API = 'wallpapers';
 
 export const APPLICATION_API = 'applications';
+
+export const DOWNLOADED_APP_API = 'downloadedApps';

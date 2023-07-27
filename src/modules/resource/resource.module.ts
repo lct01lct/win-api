@@ -6,11 +6,13 @@ import { ApplicationResourceController } from './app-resource.controller';
 import { ProtectModule } from '@/shared/middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ApplicationResourceService } from './app-resource.service';
+import { UserModelDefinition } from '../user/user.schema';
 
 @Module({
   imports: [
     ProtectModule.forFeature(WallpaperResourceController, ApplicationResourceController),
     MongooseModule.forFeature([ApplicationModelDefinition]),
+    MongooseModule.forFeatureAsync([UserModelDefinition]),
   ],
   controllers: [WallpaperResourceController, ApplicationResourceController],
   providers: [WallpaperResourceService, ApplicationResourceService],

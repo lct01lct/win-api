@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserDocument, UserService } from '../user';
+import { UserService } from '../user';
 import { Response } from 'express';
 import { STATUS } from '@/types';
 import { LoginDto } from './auth.dto';
@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import * as jwt from 'jsonwebtoken';
 import { AppError } from '@/utils';
 import { LOGGEDOUTMESS } from '@/shared';
+import { User, UserDocument } from '../user/user.schema';
 
 @Injectable()
 export class AuthService {
