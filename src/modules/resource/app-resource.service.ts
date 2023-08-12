@@ -41,7 +41,7 @@ export class ApplicationResourceService {
     return await this.userModel
       .findByIdAndUpdate(
         userId,
-        { $addToSet: { downloadedApp: appId } },
+        { $addToSet: { downloadedAppIdList: appId } },
         { new: true, runValidators: true }
       )
       .select({
@@ -54,7 +54,7 @@ export class ApplicationResourceService {
     return await this.userModel
       .findByIdAndUpdate(
         userId,
-        { $pull: { downloadedApp: appId } },
+        { $pull: { downloadedAppIdList: appId } },
         { new: true, runValidators: true }
       )
       .select('downloadedApp -_id');

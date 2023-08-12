@@ -45,7 +45,7 @@ export class User {
   wallpaper: string;
 
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: Application.name })
-  downloadedApp: ApplicationDocument[];
+  downloadedAppIdList: ApplicationDocument[];
 
   correctPassword: typeof correctPassword;
 }
