@@ -1,23 +1,29 @@
 # win-api
 
-Use nestjs and mongoDB to create backend of Win-in-Vue
+前端项目：https://github.com/lct01lct/Win10-in-Vue
 
-### start
+### 1 启动
 
-##### Installation dependencies
+##### 1.1 安装依赖
 
 ```shell
 pnpm install
 ```
 
-##### Build environment variables
+##### 1.2 构建环境变量
 
 ```shell
 pnpm build:env
 ```
 
-##### Automatically create data
+##### 1.3 自动导入数据
 
 ```shell
 pnpm data
+```
+
+##### 1.4 开始
+
+```shell
+pnpm dev
 ```
